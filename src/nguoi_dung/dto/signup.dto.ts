@@ -16,4 +16,17 @@ export class signupDto {
 
   @ApiProperty()
   matKhau: string;
+  constructor(
+    tai_khoan: string,
+    hoTen: string,
+    email: string,
+    soDT: string,
+    mat_khau: string,
+  ) {
+    tai_khoan;
+    hoTen;
+    email;
+    soDT;
+    mat_khau;
+  }
 }

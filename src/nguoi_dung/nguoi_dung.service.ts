@@ -4,15 +4,32 @@ import { UpdateNguoiDungDto } from './dto/update-nguoi_dung.dto';
 
 import { PrismaService } from 'prisma/prisma.service';
 import { loginDto } from './dto/login.dto';
+import { findUserDto } from './dto/findUser.dto';
 
 @Injectable()
 export class NguoiDungService {
   constructor(private prisma: PrismaService) {}
 
-  layDanhSachNguoiDung() {
-    return this.prisma.nguoi_dung.findMany();
+  async layDanhSachNguoiDung() {
+    try {
+      return this.prisma.nguoi_dung.findMany();
+    } catch (error) {
+      return error;
+    }
   }
+  async timKiemNguoiDung(tuKhoa: string) {
+    try {
+      const findUser = this.prisma.nguoi_dung.findFirst({
+        where: {
+          tai_khoan: tuKhoa,
+        },
+      });
 
+      return findUser;
+    } catch (error) {
+      return error;
+    }
+  }
   async login(body: loginDto) {
     try {
       let { tai_khoan, mat_khau } = body;
@@ -27,16 +44,16 @@ export class NguoiDungService {
           mat_khau,
         },
       });
-
-      if (checkEmail) {
-        if (checkMatKhau) {
-          return 'token';
-        } else {
-          return 'Mật khẩu không chính xác';
-        }
-      } else {
-        return 'Email không tồn tại';
+      if (!checkEmail && checkMatKhau) {
+        return 'Email không chính xác';
       }
+      if (!checkEmail && !checkMatKhau) {
+        return 'Email và mật khẩu không chính xác';
+      }
+      if (!checkMatKhau) {
+        return 'Mật khẩu không chính xác';
+      }
+      return 'token';
     } catch (error) {
       return error;
     }
@@ -66,16 +83,5 @@ export class NguoiDungService {
     } catch (error) {}
 
     return `This action returns a nguoiDung`;
-  }
-
-  create(createNguoiDungDto: CreateNguoiDungDto) {
-    return 'This action adds a new nguoiDung';
-  }
-  update(id: number, updateNguoiDungDto: UpdateNguoiDungDto) {
-    return `This action updates a #${id} nguoiDung`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} nguoiDung`;
   }
 }
