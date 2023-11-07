@@ -1,15 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { CreateHeThongRapDto } from './dto/create-he_thong_rap.dto';
 import { UpdateHeThongRapDto } from './dto/update-he_thong_rap.dto';
+import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
 export class HeThongRapService {
-  create(createHeThongRapDto: CreateHeThongRapDto) {
-    return 'This action adds a new heThongRap';
-  }
-
-  findAll() {
-    return `This action returns all heThongRap`;
+  constructor(private prisma: PrismaService) {}
+  layThongTinHeThongRap() {
+    return this.prisma.he_thong_rap.findMany();
   }
 
   findOne(id: number) {

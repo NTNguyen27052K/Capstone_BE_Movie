@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { CumRapService } from './cum_rap.service';
 import { CreateCumRapDto } from './dto/create-cum_rap.dto';
 import { UpdateCumRapDto } from './dto/update-cum_rap.dto';
